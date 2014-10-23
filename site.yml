@@ -1,0 +1,6 @@
+---
+- name: Laptop Configuration
+  hosts: local
+  tasks:
+    - name: ensure firefox is installed
+      pacman: name=firefox state=present
