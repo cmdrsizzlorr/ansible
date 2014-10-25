@@ -1,6 +1,14 @@
 ---
 - hosts: localhost
   tasks:
+    - name: Setup pacman config
+      copy: src=files/etc/pacman.conf dest=/etc/pacman.conf owner=root
+    - name: Setup pacman mirrorlist
+      copy: src=files/etc/pacman.d/mirrorlist dest=/etc/pacman.d/mirrorlist owner=root
+    - name: Sync pacman
+      pacman: update_cache=yes
+      sudo: yes
+  tasks:
     - name: Install VIM
       pacman: pkg=vim state=present
       sudo: yes
