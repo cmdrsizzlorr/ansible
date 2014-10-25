@@ -8,7 +8,12 @@
     - name: Sync pacman
       pacman: update_cache=yes
       sudo: yes
-  tasks:
+    - name: Copy yaourt install script for AUR access
+      copy: src=files/usr/local/bin/install-yaourt.sh dest=/usr/local/bin/install-yaourt.sh
+      sudo: yes
+    - name: Run yaourt install script
+      command: /bin/bash /usr/local/bin/install-yaourt.sh
+      sudo: yes
     - name: Install VIM
       pacman: pkg=vim state=present
       sudo: yes
@@ -20,4 +25,13 @@
       sudo: yes
     - name: Install Thunderbird
       pacman: pkg=thunderbird state=present
+      sudo: yes
+    - name: Install Syncthing
+      pacman: pkg=syncthing state=present
+      sudo: yes
+    - name: Install Wine
+      pacman: pkg=wine state=present
+      sudo: yes
+    - name: Install KeepassX
+      pacman: pkg=keepassx state=present
       sudo: yes
