@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Install VIM
+      pacman: pkg=vim state=present
+      sudo: yes
+    - name: Install Glances
+      pacman: pkg=glances state=present
+      sudo: yes
+    - name: Install Firefox
+      pacman: pkg=firefox state=present
+      sudo: yes
+    - name: Install Thunderbird
+      pacman: pkg=thunderbird state=present
+      sudo: yes
