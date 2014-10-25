@@ -17,6 +17,8 @@
     - name: Install VIM
       pacman: pkg=vim state=present
       sudo: yes
+    - name: Install NTP
+      pacman: pkg=ntp state=present
     - name: Install Glances
       pacman: pkg=glances state=present
       sudo: yes
@@ -35,3 +37,17 @@
     - name: Install KeepassX
       pacman: pkg=keepassx state=present
       sudo: yes
+    - name: Install ZFS modules
+      command: yaourt -S --noconfirm zfs-git
+    - name: Install Rsync
+      pacman: pkg=rsync state=present
+    - name: Install F-Lux 
+      command: yaourt -S --noconfirm fluxgui
+    - name: Install Meld ( diff tool )
+      command: yaourt -S --noconfirm meld
+    - name: Install YouCompleteMe vim plugin
+      command: yaourt -S --noconfirm vim-youcompleteme-git
+    - name: Install Spotify ( need the tunes! )
+      command: yaourt -S --noconfirm spotify
+    - name: Install Skype
+      command: yaourt -S --noconfirm skype
