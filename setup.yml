@@ -14,6 +14,9 @@
     - name: Run yaourt install script
       command: /bin/bash /usr/local/bin/install-yaourt.sh
       sudo: yes
+    - name: Install eCryptfs Utilities
+      pacman: pkg=ecryptfs-utils state=present
+      sudo: yes
     - name: Install VIM
       pacman: pkg=vim state=present
       sudo: yes
@@ -33,6 +36,9 @@
       sudo: yes
     - name: Install Wine
       pacman: pkg=wine state=present
+      sudo: yes
+    - name: Install Docker
+      pacman: pkg=docker state=present
       sudo: yes
     - name: Install KeepassX
       pacman: pkg=keepassx state=present
