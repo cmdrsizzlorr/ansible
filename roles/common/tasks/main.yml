@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Setup pacman config
+      copy: src=pacman.conf dest=/etc/pacman.conf owner=root
+    - name: Setup pacman mirrorlist
+      copy: src=mirrorlist dest=/etc/pacman.d/mirrorlist owner=root
+    - name: Sync pacman
+      pacman: update_cache=yes
+      sudo: yes
+
+    - name: Install base packages
+      pacman: pkg={{ item }} state=present
+      with_items: 
+        - ecryptfs-utils
+        - vim
+        - ntp
+        - glances
+        - firefox
+        - syncthing
+        - wine
+        - keepassx
+        - rsync
+      sudo: yes
+
+    - name: Copy yaourt install script for AUR access
+      copy: src=install-yaourt.sh dest=/usr/local/bin/install-yaourt.sh
+      sudo: yes
+    - name: Run yaourt install script
+      command: /bin/bash /usr/local/bin/install-yaourt.sh
+      sudo: yes
+    - name: install yaourtrc file
+      copy: yaourtrc /home/alan/.yaourtrc
+
+    - name: Install AUR packages
+      command: yaourt -Sy --noconfirm {{ item }}
+      with_items:
+        - fluxgui
+        - meld
+        - vim-youcompleteme-git
+        - spotify
+        - skype
