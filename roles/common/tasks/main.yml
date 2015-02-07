@@ -1,10 +1,10 @@
 ---
-- hosts: localhost
-  tasks:
     - name: Setup pacman config
-      copy: src=pacman.conf dest=/etc/pacman.conf owner=root
+      template: src=pacman.conf dest=/etc/pacman.conf owner=root
+      sudo: yes
     - name: Setup pacman mirrorlist
       copy: src=mirrorlist dest=/etc/pacman.d/mirrorlist owner=root
+      sudo: yes
     - name: Sync pacman
       pacman: update_cache=yes
       sudo: yes
@@ -21,16 +21,14 @@
         - wine
         - keepassx
         - rsync
-      sudo: yes
 
     - name: Copy yaourt install script for AUR access
       copy: src=install-yaourt.sh dest=/usr/local/bin/install-yaourt.sh
-      sudo: yes
     - name: Run yaourt install script
       command: /bin/bash /usr/local/bin/install-yaourt.sh
-      sudo: yes
+      #sudo: yes
     - name: install yaourtrc file
-      copy: yaourtrc /home/alan/.yaourtrc
+      copy: src=yaourtrc dest=/home/alan/.yaourtrc
 
     - name: Install AUR packages
       command: yaourt -Sy --noconfirm {{ item }}
