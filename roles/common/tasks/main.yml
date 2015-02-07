@@ -23,6 +23,7 @@
     - rsync
     - centerim
     - git
+    - terminology
     - openvpn
     - networkmanager-openvpn
     - yaourt
