@@ -36,11 +36,16 @@
   with_items:
     - fluxgui
     - meld
-    - vim-youcompleteme-git
     - spotify
     - skype
   sudo: yes
   sudo_user: alan
+
+- name: Install AUR packages when not on low power device
+  command: yaourt -Sy --noconfirm {{ item }}
+  with_items:
+    - vim-youcompleteme-git
+  when: ansible_product_name != 'NC10'
 
 - name: install vimrc file
   file: src=vimrc dest=/home/alan/.vimrc owner=alan group=alan
