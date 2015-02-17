@@ -9,3 +9,6 @@
 
 - name: install vimrc file
   copy: src=vimrc dest=/home/alan/.vimrc owner=alan group=alan
+
+#- name: start services
+#  service: name=syncthing state=started
