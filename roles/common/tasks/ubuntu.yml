@@ -1,0 +1,35 @@
+---
+
+- name: Install base packages
+  apt: name={{ item }} state=present update_cache=yes
+  with_items: 
+    - vim
+    - ntp
+    - glances
+    - wine
+    - rsync
+    - finch
+    - openvpn
+    - network-manager-openvpn
+    - redshift-gtk
+    - meld
+    - subversion
+    - python-apt
+
+- name: Add Sublime Text 3 PPA
+  apt_repository: repo='ppa:webupd8team/sublime-text-3' state=present
+
+- name: Add Sublime Text 3
+  apt: name=sublime-text-installer state=present update_cache=yes 
+
+- name: Add Spotify Repo
+  apt_repository: repo='deb http://repository.spotify.com stable non-free'
+- name: Add Spotify Key
+  apt_key: keyserver=keyserver.ubuntu.com id=94558F59
+- name: Install Spotify
+  apt: name=spotify-client state=present update_cache=yes
+
+- name: Add Syncthing PPA
+  apt_repository: repo='ppa:ytvwld/syncthing' state=present
+- name: Install Syncthing
+  apt: name=syncthing state=present update_cache=yes
