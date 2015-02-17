@@ -1,5 +1,12 @@
 ---
 
+- name: Remove some base packages
+  apt: name={{ item }} state=absent purge=yes
+  with_items:
+    - ntp
+    - libreoffice*
+    - thunderbird*
+
 - name: Install base packages
   apt: name={{ item }} state=present update_cache=yes
   with_items: 
