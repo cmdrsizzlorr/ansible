@@ -14,6 +14,4 @@
   when: ansible_product_name == "Dell System XPS L702X"
 - name: install vimrc file
   copy: src=vimrc dest=/home/alan/.vimrc owner=alan group=alan
-
-#- name: start services
-#  service: name=syncthing state=started
+  

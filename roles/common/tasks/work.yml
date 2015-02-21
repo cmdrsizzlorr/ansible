@@ -37,4 +37,4 @@
   apt: name=lxc-docker state=present update_cache=yes
 - name: Allow standard user to control Docker containers
   user: name=alan append=yes groups=docker
-  notify: restart docker 
+  notify: restart docker
