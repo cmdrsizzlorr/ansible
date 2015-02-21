@@ -12,10 +12,8 @@
   git: repo=git://github.com/robbyrussell/oh-my-zsh.git dest=/home/alan/.oh-my-zsh clone=yes accept_hostkey=true
   sudo: no
 
-- name: Copy zshrc file
-  shell: "cp /home/alan/.oh-my-zsh/templates/zshrc.zsh-template /home/alan/.zshrc && chsh -s /bin/zsh alan"
-  sudo: no
-
+- name: Copy .zshrc file
+  copy: src="home/alan/.zshrc" dest="/home/alan/.zshrc" owner=alan group=alan
 - name: Ensure permissions of .zshrc
   file: name=/home/alan/.zshrc owner=alan group=alan
 - name: Ensure permissions .oh-my-zsh
