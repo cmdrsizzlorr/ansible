@@ -24,6 +24,7 @@
     - meld
     - subversion
     - python-apt
+    - dconf-tools
 
 - name: Add external PPAs
   apt_repository: repo={{ item }} state=present
@@ -56,7 +57,16 @@
 - name: Install Chrome
   apt: name=google-chrome-stable state=present update_cache=yes
 
-- name: disable web search in Unity
-  shell: gsettings set com.canonical.Unity.Lenses remote-content-search none
+- name: setup Unity how I likes it
+  shell: gsettings set {{ item.schema }} {{ item.key }} {{ item.value }}
+  with_items:
+    - { schema: 'com.canonical.Unity.Lenses', key: 'remote-content-search', value: 'none' }
+    - { schema: 'com.canonical.indicator.datetime', key: 'show-date', value: 'true' }
+    - { schema: 'com.canonical.indicator.datetime', key: 'show-seconds', value: 'true' }
+    - { schema: 'com.canonical.indicator.datetime', key: 'show-day', value: 'true' }
+    - { schema: 'com.canonical.indicator.datetime', key: 'show-auto-detected-location', value: 'true' }
+    - { schema: 'com.canonical.indicator.datetime', key: 'show-locations', value: 'true' }
+    - { schema: 'com.canonical.indicator.datetime', key: 'locations', value: "\"['Australia/Sydney Sydney','Europe/Prague Prague','America/Vancouver Kamloops']\"" }
+    - { schema: 'com.canonical.indicator.power', key: 'show-percentage', value: 'true' }
 
 - include: install_syncthing.yml

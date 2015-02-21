@@ -1,0 +1,15 @@
+[connection]
+id=Newsweaver PPTP
+uuid=28af68fe-ef4b-468b-a4c1-6542984ce374
+type=vpn
+permissions=user:alan:;
+autoconnect=false
+
+[vpn]
+service-type=org.freedesktop.NetworkManager.pptp
+gateway=vpn.newsweaver.com
+user=aoflaherty
+password-flags=1
+
+[ipv4]
+method=auto
