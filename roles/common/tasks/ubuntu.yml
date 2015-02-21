@@ -18,11 +18,9 @@
     - glances
     - wine
     - rsync
-    - finch
     - openvpn
     - network-manager-openvpn
     - redshift-gtk
-    - stellarium
     - meld
     - subversion
     - python-apt
@@ -31,6 +29,7 @@
   apt_repository: repo={{ item }} state=present
   with_items:
     - 'ppa:webupd8team/sublime-text-3'
+    - 'ppa:enlightenment-git/ppa'
 
 - name: ensure Syncthing PPA is absent
   apt_repository: repo={{ item }} state=absent
@@ -41,6 +40,7 @@
   apt: name={{ item }} state=present update_cache=yes
   with_items:
     - sublime-text-installer
+    - terminology
 
 - name: Add Spotify Repo
   apt_repository: repo='deb http://repository.spotify.com stable non-free'
@@ -48,5 +48,15 @@
   apt_key: keyserver=keyserver.ubuntu.com id=94558F59
 - name: Install Spotify
   apt: name=spotify-client state=present update_cache=yes
+
+- name: Add Chrome Repo
+  apt_repository: repo='deb http://dl.google.com/linux/chrome/deb/ stable main'
+- name: Add Chrome Key
+  apt_key: url='https://dl-ssl.google.com/linux/linux_signing_key.pub' state=present
+- name: Install Chrome
+  apt: name=google-chrome-stable state=present update_cache=yes
+
+- name: disable web search in Unity
+  shell: gsettings set com.canonical.Unity.Lenses remote-content-search none
 
 - include: install_syncthing.yml
