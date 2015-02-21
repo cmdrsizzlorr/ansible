@@ -24,6 +24,7 @@
     - meld
     - subversion
     - python-apt
+    - python-dev
     - dconf-tools
 
 - name: Add external PPAs
@@ -70,3 +71,6 @@
     - { schema: 'com.canonical.indicator.power', key: 'show-percentage', value: 'true' }
 
 - include: install_syncthing.yml
+
+- name: install Python packages
+  pip: name=glances
