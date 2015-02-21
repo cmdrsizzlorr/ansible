@@ -22,9 +22,19 @@
 - name: Newsweaver PPTP config file setup
   copy: src="etc/NetworkManager/system-connections/Newsweaver PPTP" dest="/etc/NetworkManager/system-connections/Newsweaver PPTP" owner=root group=root mode="u=rw,g=,o="
 
-- name: Add Virtualbox Repo
+- name: Add Virtualbox repo
   apt_repository: repo='deb http://download.virtualbox.org/virtualbox/debian trusty contrib'
-- name: Add Virtualbox Key
+- name: Add Virtualbox key
   apt_key: url='https://www.virtualbox.org/download/oracle_vbox.asc' state=present
 - name: Install Virtualbox 4.3
   apt: name=virtualbox-4.3 state=present update_cache=yes
+
+- name: Add Docker repo
+  apt_repository: repo='deb https://get.docker.com/ubuntu docker main'
+- name: Add Docker key
+  apt_key: keyserver=keyserver.ubuntu.com id=36A1D7869245C8950F966E92D8576A8BA88D21E9
+- name: Install Docker
+  apt: name=lxc-docker state=present update_cache=yes
+- name: Allow standard user to control Docker containers
+  user: name=alan append=yes groups=docker
+  notify: restart docker 
