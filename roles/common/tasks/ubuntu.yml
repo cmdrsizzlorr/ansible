@@ -32,6 +32,7 @@
   with_items:
     - 'ppa:webupd8team/sublime-text-3'
     - 'ppa:enlightenment-git/ppa'
+    - 'ppa:adiscon/v8-devel'
 
 - name: ensure Syncthing PPA is absent
   apt_repository: repo={{ item }} state=absent
@@ -43,6 +44,7 @@
   with_items:
     - sublime-text-installer
     - terminology
+    - rsyslog
 
 - name: Add Spotify Repo
   apt_repository: repo='deb http://repository.spotify.com stable non-free'
