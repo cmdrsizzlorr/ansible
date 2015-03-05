@@ -8,9 +8,9 @@
     - zsh
     - keepassx
 
-- name: Install Oh-My-ZSH
-  git: repo=git://github.com/robbyrussell/oh-my-zsh.git dest=/home/alan/.oh-my-zsh clone=yes accept_hostkey=true
-  sudo: no
+#- name: Install Oh-My-ZSH
+#  git: repo=git://github.com/robbyrussell/oh-my-zsh.git dest=/home/alan/.oh-my-zsh clone=yes accept_hostkey=true
+#  sudo: no
 
 - name: Copy .zshrc file
   copy: src="home/alan/.zshrc" dest="/home/alan/.zshrc" owner=alan group=alan
