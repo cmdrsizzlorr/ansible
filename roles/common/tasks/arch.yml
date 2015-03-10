@@ -2,15 +2,18 @@
 - name: Setup pacman config
   template: src=pacman.conf dest=/etc/pacman.conf owner=root
   sudo: yes
+
 - name: Setup pacman mirrorlist
   copy: src=mirrorlist dest=/etc/pacman.d/mirrorlist owner=root
   sudo: yes
+
 - name: Sync pacman
   pacman: update_cache=yes
   sudo: yes
 
 - name: Install base packages
   pacman: pkg={{ item }} state=present
+  sudo: yes
   with_items: 
     - ecryptfs-utils
     - vim
@@ -21,12 +24,26 @@
     - wine
     - keepassx
     - rsync
-    - centerim
     - git
     - terminology
     - openvpn
     - networkmanager-openvpn
+    - gpsd
+
+- name: install aur.sh
+  file: src=aur.sh dest=/home/alan/aur.sh owner=alan group=alan state=touch
+  tags:
+    - aursh
+    
+- name: install aur packages with aur.sh
+  shell: "/bin/bash /home/alan/aur.sh -si {{ item }}"
+  sudo: yes
+  with_items:
+    - package-query
     - yaourt
+    - spotify
+    - redshift-git
+    - redshift-gtk-git
 
 - name: install yaourtrc file
   copy: src=yaourtrc dest=/home/alan/.yaourtrc
@@ -34,12 +51,9 @@
 - name: Install AUR packages
   command: yaourt -Sy --noconfirm {{ item }}
   with_items:
-    - fluxgui
     - meld
-    - spotify
     - skype
   sudo: yes
-  sudo_user: alan
 
 - name: Install AUR packages when not on low power device
   command: yaourt -Sy --noconfirm {{ item }}
@@ -55,3 +69,7 @@
   with_items:
    - /org/gnome/desktop/interface/clock-show-date
    - /org/gnome/desktop/interface/clock-show-seconds
+   
+- name: start services
+  service: name=gpsd status=started enabled=yes
+  sudo: yes

@@ -2,16 +2,16 @@
 
 - name: include Arch Linux specific tasks when on Arch
   include: arch.yml
-  when: ansible_distribution == "Arch"
+  when: ansible_distribution == "Archlinux"
 - name: include Ubuntu Linux specific tasks when on Ubuntu
   include: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
-- name: include Home based specific tasks when on work laptop
-  include: home.yml
-  when: ansible_product_name != "XPS 13 9343"
-- name: include Work based specific tasks on work laptop
-  include: work.yml
-  when: ansible_product_name == "XPS 13 9343"
+#- name: include Home based specific tasks when on work laptop
+#  include: home.yml
+#  when: ansible_product_name != "XPS 13 9343"
+#- name: include Work based specific tasks on work laptop
+#  include: work.yml
+#  when: ansible_product_name == "XPS 13 9343"
 - name: install vimrc file
   copy: src=vimrc dest=/home/alan/.vimrc owner=alan group=alan
   
