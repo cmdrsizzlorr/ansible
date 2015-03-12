@@ -1,14 +1,20 @@
 - name: Setup pacman.conf
   template: src=pacman.conf dest=/etc/pacman.conf owner=root
   sudo: yes
+  tags:
+    - pacman
 
 - name: Setup pacman mirrorlist
   copy: src=mirrorlist dest=/etc/pacman.d/mirrorlist owner=root
   sudo: yes
+  tags:
+    - pacman
 
 - name: Sync pacman
   pacman: update_cache=yes
   sudo: yes
+  tags:
+    - pacman
 
 - name: Install base packages
   pacman: pkg={{ item }} state=present
@@ -31,6 +37,7 @@
     - gpsd
     - vlc
     - mtr
+    - chrony
 
 - name: install aur.sh
   file: src=aur.sh dest=/home/alan/aur.sh owner=alan group=alan
@@ -42,6 +49,8 @@
   with_items:
     - package-query
     - yaourt
+  tags:
+    - yaourt
 
 - name: install aur packages with aur.sh
   shell: "cd /home/alan/aur && pacman -U --force {{ item }}/*.pkg.tar.xz"
@@ -50,9 +59,29 @@
   with_items:
     - package-query
     - yaourt
+  tags:
+    - yaourt
 
 - name: install yaourtrc file
   copy: src=yaourtrc dest=/home/alan/.yaourtrc
+
+- name: Install work packages with yaourt
+  shell: yaourt -S {{ item }}
+  with_items:
+    - networkmanager-dispatcher-chrony
+  sudo: yes
+  sudo_user: alan
+  tags:
+    - chrony
+  
+- name: Install chrony config
+  copy: src=chrony.conf dest=/etc/chrony.conf owner=root group=root mode="u=rw,g=r,o=r"
+  sudo: yes
+  notify:
+    - enable chrony
+    - restart chrony
+  tags:
+    - chrony
 
 - name: install vimrc file
   copy: src=vimrc dest=/home/alan/.vimrc owner=alan group=alan
@@ -62,7 +91,11 @@
   with_items:
    - /org/gnome/desktop/interface/clock-show-date
    - /org/gnome/desktop/interface/clock-show-seconds
+  tags:
+    - gnome
 
 - name: setup GNOME HiDPI
   command: dconf write /org/gnome/desktop/interface/scaling-factor 2
   when: ansible_product_name == "XPS 13 9343"
+  tags:
+    - gnome

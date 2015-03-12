@@ -5,3 +5,9 @@
 
 - name: restart docker
   service: name=docker state=restarted
+  
+- name: enable chrony
+  service: name=chrony enabled=yes
+
+- name: restart chrony
+  service: name=chrony state=restarted

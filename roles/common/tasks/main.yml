@@ -2,7 +2,7 @@
 
 - name: include Arch Linux specific tasks when on Arch
   include: arch.yml
-  when: ansible_distribution == "Archlinux"
+  when: ansible_lsb.description == "Arch Linux"
 - name: include Ubuntu Linux specific tasks when on Ubuntu
   include: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
