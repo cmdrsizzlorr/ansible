@@ -1,0 +1,23 @@
+Host github.com
+IdentityFile ~/.ssh/github
+User cmdrsizzlorr
+
+Host svn.newsweaver.*
+IdentityFile ~/.ssh/newsweaver_rsa
+User aoflaherty
+
+Host git.newsweaver.*
+IdentityFile ~/.ssh/newsweaver_rsa
+User aoflaherty
+
+Host *.newsweaver.*
+IdentityFile ~/.ssh/newsweaver_rsa
+User root
+
+Host 192.168.94.2 192.168.94.3 192.168.101.2 192.168.101.3 84.45.11.240 84.45.11.241 10.3.0.2 10.3.0.3 10.2.0.2 10.2.0.3
+IdentityFile ~/.ssh/newsweaver_dsa
+User root
+
+Host 192.168.94.* 192.168.10?.* 84.45.11.* 10.3.*.* 10.2.*.*
+IdentityFile ~/.ssh/newsweaver_rsa
+User root
