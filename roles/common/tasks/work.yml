@@ -27,14 +27,3 @@
   file: name=/home/alan/.zshrc owner=alan group=alan
 - name: Ensure permissions .oh-my-zsh
   file: name=/home/alan/.oh-my-zsh owner=alan group=alan state=directory recurse=yes
-
-- name: Newsweaver PPTP config file setup
-  copy: src="etc/NetworkManager/system-connections/Newsweaver PPTP" dest="/etc/NetworkManager/system-connections/Newsweaver PPTP" owner=root group=root mode="u=rw,g=,o="
-  sudo: yes
-
-- name: Allow standard user to control Docker containers
-  user: name=alan append=yes groups=docker
-  notify: restart docker
-  
-- name: ensure ssh config
-  copy: src=config dest=/home/alan/.ssh/config owner=alan group=alan mode="u=rw,g=,o="

@@ -26,18 +26,19 @@
     - python-apt
     - python-dev
     - dconf-tools
+    - clusterssh
+    - pdsh
+    - zsh
+    - keepassx
 
 - name: Add external PPAs
   apt_repository: repo={{ item }} state=present
   with_items:
     - 'ppa:webupd8team/sublime-text-3'
-    - 'ppa:enlightenment-git/ppa'
-    - 'ppa:adiscon/v8-devel'
-
-- name: ensure Syncthing PPA is absent
-  apt_repository: repo={{ item }} state=absent
-  with_items:
+    #- 'ppa:enlightenment-git/ppa'
+    #- 'ppa:adiscon/v8-stable'
     - 'ppa:ytvwld/syncthing'
+    - 'ppa:nilarimogard/webupd8'
 
 - name: Add external packages
   apt: name={{ item }} state=present update_cache=yes
@@ -45,6 +46,8 @@
     - sublime-text-installer
     - terminology
     - rsyslog
+    - syncthing
+    - syncthing-gtk
 
 - name: Add Spotify Repo
   apt_repository: repo='deb http://repository.spotify.com stable non-free'
@@ -52,13 +55,6 @@
   apt_key: keyserver=keyserver.ubuntu.com id=94558F59
 - name: Install Spotify
   apt: name=spotify-client state=present update_cache=yes
-
-- name: Add Chrome Repo
-  apt_repository: repo='deb http://dl.google.com/linux/chrome/deb/ stable main'
-- name: Add Chrome Key
-  apt_key: url='https://dl-ssl.google.com/linux/linux_signing_key.pub' state=present
-- name: Install Chrome
-  apt: name=google-chrome-stable state=present update_cache=yes
 
 - name: setup Unity how I likes it
   shell: gsettings set {{ item.schema }} {{ item.key }} {{ item.value }}
@@ -72,7 +68,16 @@
     - { schema: 'com.canonical.indicator.datetime', key: 'locations', value: "\"['Australia/Sydney Sydney','Europe/Prague Prague','America/Vancouver Kamloops']\"" }
     - { schema: 'com.canonical.indicator.power', key: 'show-percentage', value: 'true' }
 
-- include: install_syncthing.yml
-
 - name: install Python packages
   pip: name=glances
+
+- name: Newsweaver PPTP config file setup
+  copy: src="etc/NetworkManager/system-connections/Newsweaver PPTP" dest="/etc/NetworkManager/system-connections/Newsweaver PPTP" owner=root group=root mode="u=rw,g=,o="
+  sudo: yes
+
+- name: ensure ssh config
+  copy: src=config dest=/home/alan/.ssh/config owner=alan group=alan mode="u=rw,g=,o="
+
+- name: Allow standard user to control Docker containers
+  user: name=alan append=yes groups=docker
+  notify: restart docker
